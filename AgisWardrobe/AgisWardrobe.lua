@@ -239,7 +239,6 @@ local selectOutfit
 local renameOutfit
 
 -- FUNCTIONS: REFRESH FUNCTIONS
-
 local refreshOutfitsMenu
 local refreshOutfitsOptionsMenu
 local refreshWardrobeInputs
