@@ -66,6 +66,6 @@ L["sortByItemLevel"] = "Nach Item Stufe sortieren"
 L["sortByReqLevel"] = "Nach ben\195\182tigter Charakterstufe sortieren"
 
 L["about"] = "Info"
-L["aboutText1"] = "Fabriziert von: "
+L["aboutText1"] = "Fabriziert von: %s"
 L["aboutText2"] = "Beschwerden und Spam an: %s"
 L["aboutText3"] = "Das Ding hier gibt's auch auf Github:\n%s"
