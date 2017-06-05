@@ -10,10 +10,6 @@ if ( not L ) then return end
 L["title"] = "Kleiderschrank"
 L["undress"] = "Entkleiden"
 
-L["about"] = "Info"
-L["aboutText1"] = "Fabriziert von: "
-L["aboutText2"] = "Beschwerden und Spam an: %s"
-
 L["defaultBG"] = "Standardhintergr\195\188nde"
 L["customBG"] = "Eigene Hintergr\195\188nde"
 
@@ -69,7 +65,7 @@ L["sortByRarity"] = "Nach Seltenheit sortieren"
 L["sortByItemLevel"] = "Nach Item Stufe sortieren"
 L["sortByReqLevel"] = "Nach ben\195\182tigter Charakterstufe sortieren"
 
-
-
-
-
+L["about"] = "Info"
+L["aboutText1"] = "Fabriziert von: "
+L["aboutText2"] = "Beschwerden und Spam an: %s"
+L["aboutText3"] = "Das Zeug hier gibt's auch auf Github:|n%s"

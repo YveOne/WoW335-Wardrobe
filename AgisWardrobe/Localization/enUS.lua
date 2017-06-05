@@ -10,10 +10,6 @@ if ( not L ) then return end
 L["title"] = "Wardrobe"
 L["undress"] = "Undress"
 
-L["about"] = "About"
-L["aboutText1"] = "Manufactured by: %s"
-L["aboutText2"] = "Complaints and spam go to: %s"
-
 L["defaultBG"] = "Default backgrounds"
 L["customBG"] = "Custom backgrounds"
 
@@ -69,7 +65,7 @@ L["sortByRarity"] = "Sort by rarity"
 L["sortByItemLevel"] = "Sort by item level"
 L["sortByReqLevel"] = "Sort by required charakter level"
 
-
-
-
-
+L["about"] = "About"
+L["aboutText1"] = "Manufactured by: %s"
+L["aboutText2"] = "Complaints and spam go to: %s"
+L["aboutText3"] = "This stuff here is available on Github too:|n%s"

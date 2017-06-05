@@ -6,6 +6,7 @@
 ## Author: Agita (Yvonne P.)
 ## X-License: MIT License
 ## X-Email: agita[at]live[dot]de
+## X-Github: https://github.com/YveOne/WoW335-Wardrobe
 ## OptionalDeps: AgiCore
 ## SavedVariablesPerCharacter: AgisWardrobeDB
 

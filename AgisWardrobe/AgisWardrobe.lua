@@ -1884,9 +1884,11 @@ function WardrobeFrameAboutButton_OnClick(self)
     local author = GetAddOnMetadata(ADDONNAME, "Author")
     local title = GetAddOnMetadata(ADDONNAME, "Title")
     local email = GetAddOnMetadata(ADDONNAME, "X-Email")
+    local github = GetAddOnMetadata(ADDONNAME, "X-Github")
     print(title.."("..version..")")
     print(format(L["aboutText1"], author))
     print(format(L["aboutText2"], email))
+    print(format(L["aboutText3"], github))
 end
 
 ------------------------------------------------------------------------
