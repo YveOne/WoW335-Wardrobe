@@ -32,7 +32,7 @@ L["yourOutfits"] = "Deine gespeicherten Outfits"
 L["yourOptions"] = "Optionen"
 
 L["newOutfit"] = "Neues Outfit"
-L["createUndressedOutfit"] = "Outfit erstellen (entkleided)"
+L["createUndressedOutfit"] = "Outfit erstellen (entkleidet)"
 L["createDressedOutfit"] = "Outfit erstellen"
 L["deleteOutfit"] = "Dieses Outfit l\195\182schen"
 L["renameOutfit"] = "Dieses Outfit umbenennen"
