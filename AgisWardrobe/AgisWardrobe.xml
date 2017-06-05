@@ -1,0 +1,1199 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
+
+    <Script file="AgisWardrobe.lua"/>
+
+	<Texture name="DressUpFrameSlotDialogTexture" file="Interface\AddOns\AgisWardrobe\Textures\DressUpFrameSlotDialogTexture" virtual="true"/>
+
+    <Button name="DressUpFrameSlotButtonTemplate" parent="DressUpFrame" inherits="ItemButtonTemplate" virtual="true">
+		<Layers>
+			<Layer level="OVERLAY">
+				<Texture name="$parentHighlight" hidden="true" file="Interface\PaperDollInfoFrame\UI-GearManager-ItemButton-Highlight">
+					<Size x="50" y="50"/>
+					<Anchors>
+						<Anchor point="LEFT">
+							<Offset x="-8" y="0"/>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0" right="0.78125" top="0" bottom="0.78125"/>
+				</Texture>
+			</Layer>
+		</Layers>
+        <Scripts>
+            <OnLoad function="DressUpFrameSlotButton_OnLoad" />
+            <OnShow function="DressUpFrameSlotButton_OnShow" />
+            <OnHide function="DressUpFrameSlotButton_OnHide" />
+            <OnEvent function="DressUpFrameSlotButton_OnEvent" />
+            <OnEnter function="DressUpFrameSlotButton_OnEnter" />
+            <OnLeave function="DressUpFrameSlotButton_OnLeave" />
+            <OnClick function="DressUpFrameSlotButton_OnClick" />
+            <OnDragStart function="DressUpFrameSlotButton_OnDragStart" />
+            <OnDragStop function="DressUpFrameSlotButton_OnDragStop" />
+            <OnReceiveDrag function="DressUpFrameSlotButton_OnReceiveDrag" />
+        </Scripts>
+    </Button>
+
+    <Frame name="WardrobeItemsFrameItemTemplate" virtual="true">
+        <Size>
+            <AbsDimension x="300" y="40" />
+        </Size>
+        <Layers>
+            <Layer>
+                <FontString parentKey="name" name="$parentName" font="Fonts\FRIZQT__.TTF" justifyH="LEFT">
+                    <Color r="1" g="1" b="1" a="1"/>
+                    <FontHeight val="14"/>
+                    <Size>
+                        <AbsDimension x="250" y="14"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOPLEFT">
+                            <Offset>
+                                <AbsDimension x="45" y="-5"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                    <Shadow>
+                        <Offset x="1" y="1" />
+                        <Color r="0" g="0" b="0"/>
+                    </Shadow>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Button parentKey="icon" name="$parentIcon" inherits="ItemButtonTemplate">
+                <Size>
+                    <AbsDimension x="36" y="36" />
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT">
+                        <Offset>
+                            <AbsDimension x="2" y="-2"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Layers>
+                    <Layer level="OVERLAY">
+                        <Texture name="$parentHighlight" hidden="true" file="Interface\PaperDollInfoFrame\UI-GearManager-ItemButton-Highlight">
+                            <Size x="50" y="50"/>
+                            <Anchors>
+                                <Anchor point="LEFT">
+                                    <Offset x="-8" y="0"/>
+                                </Anchor>
+                            </Anchors>
+                            <TexCoords left="0" right="0.78125" top="0" bottom="0.78125"/>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad function="WardrobeItemsFrameItem_OnLoad" />
+                    <OnEvent function="WardrobeItemsFrameItem_OnEvent" />
+                    <OnEnter function="WardrobeItemsFrameItem_OnEnter" />
+                    <OnLeave function="WardrobeItemsFrameItem_OnLeave" />
+                    <OnClick function="WardrobeItemsFrameItem_OnClick" />
+                    <OnDragStart function="WardrobeItemsFrameItem_OnDragStart" />
+                    <OnDragStop function="WardrobeItemsFrameItem_OnDragStop" />
+                    <OnReceiveDrag function="WardrobeItemsFrameItem_OnReceiveDrag" />
+                </Scripts>
+            </Button>
+        </Frames>
+    </Frame>
+
+	<Button name="DressUpFrameSlotDialogButtonTemplate" inherits="ItemButtonTemplate" virtual="true">
+		<Layers>
+			<Layer level="OVERLAY">
+				<Texture name="$parentHighlight" hidden="true" file="Interface\PaperDollInfoFrame\UI-GearManager-ItemButton-Highlight">
+					<Size x="50" y="50"/>
+					<Anchors>
+						<Anchor point="LEFT">
+							<Offset x="-8" y="0"/>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0" right="0.78125" top="0" bottom="0.78125"/>
+				</Texture>
+			</Layer>
+		</Layers>
+        <Scripts>
+            <OnLoad function="DressUpFrameSlotDialogButton_OnLoad" />
+            <OnShow function="DressUpFrameSlotDialogButton_OnShow" />
+            <OnHide function="DressUpFrameSlotDialogButton_OnHide" />
+            <OnEvent function="DressUpFrameSlotDialogButton_OnEvent" />
+            <OnEnter function="DressUpFrameSlotDialogButton_OnEnter" />
+            <OnLeave function="DressUpFrameSlotDialogButton_OnLeave" />
+            <OnClick function="DressUpFrameSlotDialogButton_OnClick" />
+            <OnDragStart function="DressUpFrameSlotDialogButton_OnDragStart" />
+            <OnDragStop function="DressUpFrameSlotDialogButton_OnDragStop" />
+            <OnReceiveDrag function="DressUpFrameSlotDialogButton_OnReceiveDrag" />
+        </Scripts>
+	</Button>
+
+    <EditBox name="SmallNumericEditBoxTemplate" letters="5" numeric="true" virtual="true">
+        <Size x="50" y="32" />
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture file="Interface\ChatFrame\UI-ChatInputBorder-Left">
+                    <Size>
+                        <AbsDimension x="40" y="32"></AbsDimension>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="LEFT">
+                            <Offset>
+                                <AbsDimension x="-10" y="0"></AbsDimension>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                    <TexCoords left="0" right="0.15" top="0" bottom="1.0"></TexCoords>
+                </Texture>
+                <Texture file="Interface\ChatFrame\UI-ChatInputBorder-Right">
+                    <Size>
+                        <AbsDimension x="40" y="32"></AbsDimension>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="RIGHT">
+                            <Offset>
+                                <AbsDimension x="15" y="0"></AbsDimension>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                    <TexCoords left="0.85" right="1.0" top="0" bottom="1.0"></TexCoords>
+                </Texture>
+            </Layer>
+        </Layers>
+        <FontString inherits="ChatFontNormal" justifyH="RIGHT" />
+        <Scripts>
+            <OnShow>
+                self:SetAutoFocus(false)
+            </OnShow>
+        </Scripts>
+    </EditBox>
+
+    <EditBox name="TextEditBoxTemplate" letters="30" virtual="true">
+        <Size x="130" y="32" />
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture file="Interface\ChatFrame\UI-ChatInputBorder-Left">
+                    <Size>
+                        <AbsDimension x="75" y="32"></AbsDimension>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="LEFT">
+                            <Offset>
+                                <AbsDimension x="-10" y="0"></AbsDimension>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                    <TexCoords left="0" right="0.2" top="0" bottom="1.0"></TexCoords>
+                </Texture>
+                <Texture file="Interface\ChatFrame\UI-ChatInputBorder-Right">
+                    <Size>
+                        <AbsDimension x="75" y="32"></AbsDimension>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="RIGHT">
+                            <Offset>
+                                <AbsDimension x="10" y="0"></AbsDimension>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                    <TexCoords left="0.7" right="1.0" top="0" bottom="1.0"></TexCoords>
+                </Texture>
+            </Layer>
+        </Layers>
+        <FontString inherits="ChatFontNormal" justifyH="LEFT" />
+        <Scripts>
+            <OnShow>
+                self:SetAutoFocus(false)
+            </OnShow>
+        </Scripts>
+    </EditBox>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <Button name="DressUpFrameUndressButton" parent="DressUpFrame" frameStrata="HIGH" inherits="OptionsButtonTemplate">
+        <Size>
+            <AbsDimension x="100" y="22"/>
+        </Size>
+        <Anchors>
+            <Anchor point="BOTTOMLEFT" relativeTo="DressUpFrame">
+                <Offset>
+                    <AbsDimension x="15" y="80"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+        <Scripts>
+            <OnClick function="DressUpFrameUndressButton_OnClick" />
+        </Scripts>
+    </Button>
+
+    <Button name="DressUpFrameBackgroundButton" parent="DressUpFrame" inherits="UIDropDownMenuTemplate" frameStrata="HIGH" frameLevel="100">
+        <Size>
+            <AbsDimension x="70" y="22"/>
+        </Size>
+        <Anchors>
+            <Anchor point="TOPLEFT" relativeTo="DressUpFrame">
+                <Offset>
+                    <AbsDimension x="55" y="-40"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+        <Frames>
+            <Frame name="$parentMenu" inherits="UIDropDownMenuTemplate" />
+        </Frames>
+        <Scripts>
+            <OnClick function="DressUpFrameBackgroundButton_OnClick" />
+        </Scripts>
+    </Button>
+
+    <Button name="DressUpFrameOutfitsButton" parent="DressUpFrame" inherits="UIDropDownMenuTemplate" frameStrata="HIGH" frameLevel="100">
+        <Size>
+            <AbsDimension x="175" y="22"/>
+        </Size>
+        <Anchors>
+            <Anchor point="BOTTOMLEFT" relativeTo="DressUpFrame">
+                <Offset>
+                    <AbsDimension x="55" y="110"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+        <Frames>
+            <Frame name="$parentMenu" inherits="UIDropDownMenuTemplate" />
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                UIDropDownMenu_SetWidth(self, 175)
+            </OnLoad>
+            <OnShow>
+                DressUpFrameOutfitsOptionsButton:Show()
+            </OnShow>
+            <OnHide>
+                DressUpFrameOutfitsOptionsButton:Hide()
+            </OnHide>
+        </Scripts>
+    </Button>
+
+    <Button name="DressUpFrameOutfitsOptionsButton" parent="DressUpFrame" inherits="UIDropDownMenuTemplate" frameStrata="HIGH" frameLevel="100">
+        <Size>
+            <AbsDimension x="50" y="22"/>
+        </Size>
+        <Anchors>
+            <Anchor point="BOTTOMLEFT" relativeTo="DressUpFrameOutfitsButton">
+                <Offset>
+                    <AbsDimension x="190" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+        <Frames>
+            <Frame name="$parentMenu" inherits="UIDropDownMenuTemplate" />
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                UIDropDownMenu_SetWidth(self, 10)
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="DressUpFrameWardrobeButton" parent="DressUpFrame" inherits="OptionsButtonTemplate">
+        <Size>
+            <AbsDimension x="130" y="21"/>
+        </Size>
+        <Anchors>
+            <Anchor point="TOPRIGHT" relativeTo="DressUpFrame">
+                <Offset>
+                    <AbsDimension x="-45" y="-46"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+        <Scripts>
+            <OnClick function="DressUpFrameWardrobeButton_OnClick" />
+        </Scripts>
+    </Button>
+
+    <Button name="DressUpFrameHeadSlot" inherits="DressUpFrameSlotButtonTemplate">
+        <Anchors>
+            <Anchor point="TOPLEFT">
+                <Offset>
+                    <AbsDimension x="25" y="-78"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+    </Button>
+    <Button name="DressUpFrameShoulderSlot" inherits="DressUpFrameSlotButtonTemplate">
+        <Anchors>
+            <Anchor point="TOPLEFT" relativeTo="DressUpFrameHeadSlot" relativePoint="BOTTOMLEFT">
+                <Offset>
+                    <AbsDimension x="0" y="-4"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+    </Button>
+    <Button name="DressUpFrameBackSlot" inherits="DressUpFrameSlotButtonTemplate">
+        <Anchors>
+            <Anchor point="TOPLEFT" relativeTo="DressUpFrameShoulderSlot" relativePoint="BOTTOMLEFT">
+                <Offset>
+                    <AbsDimension x="0" y="-4"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+    </Button>
+    <Button name="DressUpFrameChestSlot" inherits="DressUpFrameSlotButtonTemplate">
+        <Anchors>
+            <Anchor point="TOPLEFT" relativeTo="DressUpFrameBackSlot" relativePoint="BOTTOMLEFT">
+                <Offset>
+                    <AbsDimension x="0" y="-4"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+    </Button>
+    <Button name="DressUpFrameShirtSlot" inherits="DressUpFrameSlotButtonTemplate">
+        <Anchors>
+            <Anchor point="TOPLEFT" relativeTo="DressUpFrameChestSlot" relativePoint="BOTTOMLEFT">
+                <Offset>
+                    <AbsDimension x="0" y="-4"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+    </Button>
+    <Button name="DressUpFrameTabardSlot" inherits="DressUpFrameSlotButtonTemplate">
+        <Anchors>
+            <Anchor point="TOPLEFT" relativeTo="DressUpFrameShirtSlot" relativePoint="BOTTOMLEFT">
+                <Offset>
+                    <AbsDimension x="0" y="-4"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+    </Button>
+    <Button name="DressUpFrameWristSlot" inherits="DressUpFrameSlotButtonTemplate">
+        <Anchors>
+            <Anchor point="TOPLEFT" relativeTo="DressUpFrameTabardSlot" relativePoint="BOTTOMLEFT">
+                <Offset>
+                    <AbsDimension x="0" y="-4"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+    </Button>
+    <Button name="DressUpFrameHandsSlot" inherits="DressUpFrameSlotButtonTemplate">
+        <Anchors>
+            <Anchor point="TOPLEFT">
+                <Offset>
+                  <AbsDimension x="300" y="-78"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+    </Button>
+    <Button name="DressUpFrameWaistSlot" inherits="DressUpFrameSlotButtonTemplate">
+        <Anchors>
+            <Anchor point="TOPLEFT" relativeTo="DressUpFrameHandsSlot" relativePoint="BOTTOMLEFT">
+                <Offset>
+                    <AbsDimension x="0" y="-4"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+    </Button>
+    <Button name="DressUpFrameLegsSlot" inherits="DressUpFrameSlotButtonTemplate">
+        <Anchors>
+            <Anchor point="TOPLEFT" relativeTo="DressUpFrameWaistSlot" relativePoint="BOTTOMLEFT">
+                <Offset>
+                    <AbsDimension x="0" y="-4"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+    </Button>
+    <Button name="DressUpFrameFeetSlot" inherits="DressUpFrameSlotButtonTemplate">
+        <Anchors>
+            <Anchor point="TOPLEFT" relativeTo="DressUpFrameLegsSlot" relativePoint="BOTTOMLEFT">
+                <Offset>
+                    <AbsDimension x="0" y="-4"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+    </Button>
+    <Button name="DressUpFrameMainHandSlot" inherits="DressUpFrameSlotButtonTemplate">
+        <Anchors>
+            <Anchor point="TOPLEFT" relativeTo="DressUpFrameFeetSlot" relativePoint="BOTTOMLEFT">
+                <Offset>
+                    <AbsDimension x="0" y="-4"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+    </Button>
+    <Button name="DressUpFrameSecondaryHandSlot" inherits="DressUpFrameSlotButtonTemplate">
+        <Anchors>
+            <Anchor point="TOPLEFT" relativeTo="DressUpFrameMainHandSlot" relativePoint="BOTTOMLEFT">
+                <Offset>
+                    <AbsDimension x="0" y="-4"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+    </Button>
+    <Button name="DressUpFrameRangedSlot" inherits="DressUpFrameSlotButtonTemplate">
+        <Anchors>
+            <Anchor point="TOPLEFT" relativeTo="DressUpFrameSecondaryHandSlot" relativePoint="BOTTOMLEFT">
+                <Offset>
+                    <AbsDimension x="0" y="-4"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+    </Button>
+
+	<Frame name="DressUpFrameSlotDialog" parent="DressUpFrame" enableMouse="false" frameStrata="HIGH" frameLevel="100" hidden="true">
+        <Size>
+            <AbsDimension x="259" y="50"/>
+        </Size>
+        <Anchors>
+            <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT">
+                <Offset x="82" y="175"/>
+            </Anchor>
+        </Anchors>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="bgLeft" inherits="DressUpFrameSlotDialogTexture" />
+                <Texture parentKey="bgRight" inherits="DressUpFrameSlotDialogTexture" />
+            </Layer>					
+        </Layers>
+        <Frames>
+            <Button name="$parentMainItemButton" parentKey="MainItem" inherits="DressUpFrameSlotDialogButtonTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT">
+                        <Offset>
+                            <AbsDimension x="6" y="-6"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="$parentListItemButton1" parentKey="ListItem1" inherits="DressUpFrameSlotDialogButtonTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentMainItemButton" relativePoint="TOPRIGHT">
+                        <Offset>
+                            <AbsDimension x="10" y="0"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="$parentListItemButton2" parentKey="ListItem2" inherits="DressUpFrameSlotDialogButtonTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentListItemButton1" relativePoint="TOPRIGHT">
+                        <Offset>
+                            <AbsDimension x="4" y="0"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="$parentListItemButton3" parentKey="ListItem3" inherits="DressUpFrameSlotDialogButtonTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentListItemButton2" relativePoint="TOPRIGHT">
+                        <Offset>
+                            <AbsDimension x="4" y="0"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="$parentListItemButton4" parentKey="ListItem4" inherits="DressUpFrameSlotDialogButtonTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentListItemButton3" relativePoint="TOPRIGHT">
+                        <Offset>
+                            <AbsDimension x="4" y="0"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="$parentListItemButton5" parentKey="ListItem5" inherits="DressUpFrameSlotDialogButtonTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentListItemButton4" relativePoint="TOPRIGHT">
+                        <Offset>
+                            <AbsDimension x="4" y="0"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+            </Button>
+        </Frames>
+		<Scripts>
+			<OnLoad>
+                self.itemButtons = {
+                    self.MainItem,
+                    self.ListItem1,
+                    self.ListItem2,
+                    self.ListItem3,
+                    self.ListItem4,
+                    self.ListItem5,
+                }
+                for i=1,#self.itemButtons do
+                    self.itemButtons[i].ID = i
+                end
+                self:SetScale(0.85)
+                self.bgLeft:ClearAllPoints();
+                self.bgLeft:SetTexCoord(0.25, 0.50, 0.25, 0.50);
+                self.bgLeft:SetWidth(64);
+                self.bgLeft:SetHeight(64);
+                self.bgLeft:SetPoint("TOPLEFT", -5, 0);
+                self.bgRight:ClearAllPoints();
+                self.bgRight:SetTexCoord(0.00, 1.00, 0.00, 0.25);
+                self.bgRight:SetWidth(256);
+                self.bgRight:SetHeight(64);
+                self.bgRight:SetPoint("TOPLEFT", 47, 0);
+			</OnLoad>
+		</Scripts>
+	</Frame>
+
+    <Frame name="WardrobeFrame" toplevel="true" enableMouse="true" parent="DressUpFrame" hidden="true">
+        <Size>
+            <AbsDimension x="350" y="440"/>
+        </Size>
+        <Anchors>
+            <Anchor point="TOPLEFT">
+                <Offset>
+                    <AbsDimension x="340" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="WardrobeFramePortrait">
+                    <Size>
+                        <AbsDimension x="60" y="60"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOPLEFT">
+                            <Offset>
+                                <AbsDimension x="7" y="-6"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="ARTWORK">
+                <Texture file="Interface\PaperDollInfoFrame\UI-Character-General-TopLeft">
+                    <Size>
+                        <AbsDimension x="256" y="256"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOPLEFT"/>
+                    </Anchors>
+                </Texture>
+                <Texture file="Interface\PaperDollInfoFrame\UI-Character-General-TopRight">
+                    <Size>
+                        <AbsDimension x="128" y="256"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOPLEFT">
+                            <Offset>
+                                <AbsDimension x="256" y="0"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+                <Texture file="Interface\PaperDollInfoFrame\SkillFrame-BotLeft">
+                    <Size>
+                        <AbsDimension x="256" y="256"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOPLEFT">
+                            <Offset>
+                                <AbsDimension x="0" y="-256"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+                <Texture file="Interface\PaperDollInfoFrame\SkillFrame-BotRight">
+                    <Size>
+                        <AbsDimension x="128" y="256"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOPLEFT">
+                            <Offset>
+                                <AbsDimension x="256" y="-256"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+                <FontString name="WardrobeFrameTitleText" inherits="GameFontHighlight">
+                    <Size>
+                        <AbsDimension x="283" y="14"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOP" relativePoint="TOP">
+                            <Offset>
+                                <AbsDimension x="0" y="-16"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="WardrobeFramePageStatus" inherits="GameFontNormal" justifyH="CENTER">
+                    <Size>
+                        <AbsDimension x="300" y="14"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT" relativeTo="WardrobeFrame" relativePoint="BOTTOMLEFT">
+                            <Offset>
+                                <AbsDimension x="35" y="13"/>
+                            </Offset>
+                        </Anchor>
+                        <Anchor point="BOTTOMRIGHT" relativeTo="WardrobeFrame" relativePoint="BOTTOMLEFT">
+                            <Offset>
+                                <AbsDimension x="245" y="13"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+
+
+
+
+
+            </Layer>
+        </Layers>
+        <Frames>
+
+            <Frame name="WardrobeContainer">
+                <Size>
+                    <AbsDimension x="318" y="333"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT">
+                        <Offset>
+                            <AbsDimension x="21" y="-74"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+            </Frame>
+
+            <Frame name="WardrobeMenuFrame" parent="WardrobeContainer">
+                <Size>
+                    <AbsDimension x="318" y="200"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT">
+                        <Offset>
+                            <AbsDimension x="0" y="0"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <FontString name="$parentItemNameLabel" inherits="GameFontNormal" justifyH="LEFT">
+                            <Size>
+                                <AbsDimension x="150" y="14"/>
+                            </Size>
+                            <Anchors>
+                                <Anchor point="TOPLEFT">
+                                    <Offset>
+                                        <AbsDimension x="10" y="-20"/>
+                                    </Offset>
+                                </Anchor>
+                            </Anchors>
+                        </FontString>
+                        <FontString name="$parentItemIDLabel" inherits="GameFontNormal" justifyH="LEFT">
+                            <Size>
+                                <AbsDimension x="150" y="14"/>
+                            </Size>
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentItemNameLabel">
+                                    <Offset>
+                                        <AbsDimension x="0" y="-30"/>
+                                    </Offset>
+                                </Anchor>
+                            </Anchors>
+                        </FontString>
+                        <FontString name="$parentItemLevelLabel" inherits="GameFontNormal" justifyH="LEFT">
+                            <Size>
+                                <AbsDimension x="150" y="14"/>
+                            </Size>
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentItemIDLabel">
+                                    <Offset>
+                                        <AbsDimension x="0" y="-30"/>
+                                    </Offset>
+                                </Anchor>
+                            </Anchors>
+                        </FontString>
+                        <FontString name="$parentItemRequireLevelLabel" inherits="GameFontNormal" justifyH="LEFT">
+                            <Size>
+                                <AbsDimension x="150" y="14"/>
+                            </Size>
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentItemLevelLabel">
+                                    <Offset>
+                                        <AbsDimension x="0" y="-30"/>
+                                    </Offset>
+                                </Anchor>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                <Backdrop bgFile="Interface\TutorialFrame\TutorialFrameBackground" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+                    <EdgeSize val="16"/>
+                    <TileSize val="32"/>
+                    <BackgroundInsets left="5" right="5" top="5" bottom="5"/>
+                </Backdrop>
+                <Frames>
+
+
+                    <EditBox name="$parentItemNameInput" inherits="TextEditBoxTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT">
+                                <Offset x="168" y="-10" />
+                            </Anchor>
+                        </Anchors>
+                    </EditBox>
+
+
+
+                    <EditBox name="$parentItemIDMinInput" inherits="SmallNumericEditBoxTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT">
+                                <Offset x="170" y="-40" />
+                            </Anchor>
+                        </Anchors>
+                    </EditBox>
+                    <EditBox name="$parentItemIDMaxInput" inherits="SmallNumericEditBoxTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentItemIDMinInput">
+                                <Offset x="73" y="0" />
+                            </Anchor>
+                        </Anchors>
+                    </EditBox>
+
+                    <EditBox name="$parentItemLevelMinInput" inherits="SmallNumericEditBoxTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentItemIDMinInput">
+                                <Offset x="0" y="-30" />
+                            </Anchor>
+                        </Anchors>
+                    </EditBox>
+                    <EditBox name="$parentItemLevelMaxInput" inherits="SmallNumericEditBoxTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentItemIDMaxInput">
+                                <Offset x="0" y="-30" />
+                            </Anchor>
+                        </Anchors>
+                    </EditBox>
+
+                    <EditBox name="$parentRequireLevelInput" inherits="SmallNumericEditBoxTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentItemLevelMinInput">
+                                <Offset x="0" y="-30" />
+                            </Anchor>
+                        </Anchors>
+                    </EditBox>
+
+
+
+
+
+
+
+                    <Button name="$parentItemRarityButton" inherits="UIDropDownMenuTemplate">
+                        <Size>
+                            <AbsDimension x="130" y="22"/>
+                        </Size>
+                        <Anchors>
+                            <Anchor point="TOPLEFT">
+                                <Offset>
+                                    <AbsDimension x="-7" y="-130"/>
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                        <Frames>
+                            <Frame name="$parentItemRarityMenu" inherits="UIDropDownMenuTemplate" />
+                        </Frames>
+                        <Scripts>
+                            <OnLoad>
+                                UIDropDownMenu_SetWidth(self, 130)
+                            </OnLoad>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentItemSlotButton" inherits="UIDropDownMenuTemplate">
+                        <Size>
+                            <AbsDimension x="105" y="22"/>
+                        </Size>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentItemRarityButton">
+                                <Offset>
+                                    <AbsDimension x="150" y="0"/>
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                        <Frames>
+                            <Frame name="$parentMenu" inherits="UIDropDownMenuTemplate" />
+                        </Frames>
+                        <Scripts>
+                            <OnLoad>
+                                UIDropDownMenu_SetWidth(self, 105)
+                            </OnLoad>
+                        </Scripts>
+                    </Button>
+                    <Button name="$parentItemTypeButton" inherits="UIDropDownMenuTemplate">
+                        <Size>
+                            <AbsDimension x="50" y="22"/>
+                        </Size>
+                        <Anchors>
+                            <Anchor point="BOTTOMLEFT" relativeTo="$parentItemSlotButton">
+                                <Offset>
+                                    <AbsDimension x="120" y="0"/>
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                        <Frames>
+                            <Frame name="$parentMenu" inherits="UIDropDownMenuTemplate" />
+                        </Frames>
+                        <Scripts>
+                            <OnLoad>
+                                UIDropDownMenu_SetWidth(self, 10)
+                            </OnLoad>
+                        </Scripts>
+                    </Button>
+
+
+
+
+
+
+
+
+                    <Button name="$parentSortByButton" inherits="UIDropDownMenuTemplate">
+                        <Size>
+                            <AbsDimension x="130" y="22"/>
+                        </Size>
+                        <Anchors>
+                            <Anchor point="BOTTOMLEFT">
+                                <Offset>
+                                    <AbsDimension x="-7" y="7"/>
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                        <Frames>
+                            <Frame name="$parentMenu" inherits="UIDropDownMenuTemplate" />
+                        </Frames>
+                        <Scripts>
+                            <OnLoad>
+                                UIDropDownMenu_SetWidth(self, 130)
+                            </OnLoad>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentSortOrderButton" inherits="UIDropDownMenuTemplate">
+                        <Size>
+                            <AbsDimension x="50" y="22"/>
+                        </Size>
+                        <Anchors>
+                            <Anchor point="BOTTOMLEFT" relativeTo="$parentSortByButton">
+                                <Offset>
+                                    <AbsDimension x="145" y="0"/>
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                        <Frames>
+                            <Frame name="$parentMenu" inherits="UIDropDownMenuTemplate" />
+                        </Frames>
+                        <Scripts>
+                            <OnLoad>
+                                UIDropDownMenu_SetWidth(self, 10)
+                            </OnLoad>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="WardrobeFrameSubmitButton" inherits="OptionsButtonTemplate">
+                        <Size>
+                            <AbsDimension x="100" y="22"/>
+                        </Size>
+                        <Anchors>
+                            <Anchor point="BOTTOMRIGHT">
+                                <Offset>
+                                    <AbsDimension x="-10" y="15"/>
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                        <Scripts>
+                            <OnClick function="WardrobeFrameSubmitButton_OnClick" />
+                        </Scripts>
+                    </Button>
+
+                </Frames>
+            </Frame>
+
+            <Frame name="WardrobeSeparateFrame" parent="WardrobeContainer">
+                <Size>
+                    <AbsDimension x="318" y="36"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="WardrobeMenuFrame" relativePoint="BOTTOMLEFT">
+                        <Offset>
+                            <AbsDimension x="0" y="0"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <FontString name="WardrobeFrameItemStatus" inherits="GameFontHighlightSmall" justifyH="LEFT">
+                            <Size>
+                                <AbsDimension x="200" y="14"/>
+                            </Size>
+                            <Anchors>
+                                <Anchor point="TOPLEFT">
+                                    <Offset>
+                                        <AbsDimension x="10" y="-10"/>
+                                    </Offset>
+                                </Anchor>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                <Backdrop bgFile="Interface\TutorialFrame\TutorialFrameBackground" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+                    <EdgeSize val="16"/>
+                    <TileSize val="32"/>
+                    <BackgroundInsets left="5" right="5" top="5" bottom="5"/>
+                </Backdrop>
+                <Frames>
+                    <Button name="WardrobeFrameSeperateUpButton">
+                        <Size>
+                            <AbsDimension x="22" y="22"/>
+                        </Size>
+                        <Anchors>
+                            <Anchor point="TOPRIGHT">
+                                <Offset>
+                                    <AbsDimension x="-6" y="-7"/>
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                        <Scripts>
+                            <OnClick function="WardrobeFrameSeperateUpButton_OnClick"/>
+                        </Scripts>
+                        <NormalTexture file="Interface\AddOns\AgisWardrobe\Textures\IconUp-Up"/>
+                        <PushedTexture file="Interface\AddOns\AgisWardrobe\Textures\IconUp-Down"/>
+                        <DisabledTexture file="Interface\AddOns\AgisWardrobe\Textures\IconUp-Disabled"/>
+                        <HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+                    </Button>
+                    <Button name="WardrobeFrameSeperateDownButton" hidden="true">
+                        <Size>
+                            <AbsDimension x="22" y="22"/>
+                        </Size>
+                        <Anchors>
+                            <Anchor point="TOPRIGHT">
+                                <Offset>
+                                    <AbsDimension x="-6" y="-7"/>
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                        <Scripts>
+                            <OnClick function="WardrobeFrameSeperateDownButton_OnClick"/>
+                        </Scripts>
+                        <NormalTexture file="Interface\AddOns\AgisWardrobe\Textures\IconDown-Up"/>
+                        <PushedTexture file="Interface\AddOns\AgisWardrobe\Textures\IconDown-Down"/>
+                        <DisabledTexture file="Interface\AddOns\AgisWardrobe\Textures\IconDown-Disabled"/>
+                        <HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+                    </Button>
+                </Frames>
+            </Frame>
+
+            <Frame name="WardrobeItemsFrame" parent="WardrobeContainer">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="WardrobeSeparateFrame" relativePoint="BOTTOMLEFT" />
+                    <Anchor point="BOTTOMRIGHT" relativeTo="WardrobeContainer" />
+                </Anchors>
+                <Backdrop bgFile="Interface\TutorialFrame\TutorialFrameBackground" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+                    <EdgeSize val="16"/>
+                    <TileSize val="32"/>
+                    <BackgroundInsets left="5" right="5" top="5" bottom="5"/>
+                </Backdrop>
+                <Frames>
+
+                    <ScrollFrame name="$parentScrollFrame" inherits="FauxScrollFrameTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT">
+                                <Offset>
+                                    <AbsDimension x="0" y="-8"/>
+                                </Offset>
+                            </Anchor>
+                            <Anchor point="BOTTOMRIGHT">
+                                <Offset>
+                                    <AbsDimension x="-30" y="8"/>
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                        <Scripts>
+                            <OnVerticalScroll>
+                                FauxScrollFrame_OnVerticalScroll(self, offset, 40, WardrobeItemsFrameScrollFrame_Update); 
+                            </OnVerticalScroll>
+                            <OnShow>
+                                WardrobeItemsFrameScrollFrame_Update()
+                            </OnShow>
+                        </Scripts>
+                    </ScrollFrame>
+
+                    <Frame name="WardrobeItemsFrameItem1" inherits="WardrobeItemsFrameItemTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentScrollFrame">
+                                <Offset>
+                                    <AbsDimension x="10" y="0"/>
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame>
+                    <Frame name="WardrobeItemsFrameItem2" inherits="WardrobeItemsFrameItemTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="WardrobeItemsFrameItem1" relativePoint="BOTTOMLEFT">
+                                <Offset>
+                                    <AbsDimension x="0" y="0"/>
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame>
+                    <Frame name="WardrobeItemsFrameItem3" inherits="WardrobeItemsFrameItemTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="WardrobeItemsFrameItem2" relativePoint="BOTTOMLEFT">
+                                <Offset>
+                                    <AbsDimension x="0" y="0"/>
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame>
+                    <Frame name="WardrobeItemsFrameItem4" inherits="WardrobeItemsFrameItemTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="WardrobeItemsFrameItem3" relativePoint="BOTTOMLEFT">
+                                <Offset>
+                                    <AbsDimension x="0" y="0"/>
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame>
+                    <Frame name="WardrobeItemsFrameItem5" inherits="WardrobeItemsFrameItemTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="WardrobeItemsFrameItem4" relativePoint="BOTTOMLEFT">
+                                <Offset>
+                                    <AbsDimension x="0" y="0"/>
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame>
+                    <Frame name="WardrobeItemsFrameItem6" inherits="WardrobeItemsFrameItemTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="WardrobeItemsFrameItem5" relativePoint="BOTTOMLEFT">
+                                <Offset>
+                                    <AbsDimension x="0" y="0"/>
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame>
+                    <Frame name="WardrobeItemsFrameItem7" inherits="WardrobeItemsFrameItemTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="WardrobeItemsFrameItem6" relativePoint="BOTTOMLEFT">
+                                <Offset>
+                                    <AbsDimension x="0" y="0"/>
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame>
+
+                </Frames>
+            </Frame>
+
+            <Button name="WardrobeFramePrevPageButton">
+                <Size>
+                    <AbsDimension x="22" y="22"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="CENTER" relativeTo="WardrobeFrame" relativePoint="BOTTOMLEFT">
+                        <Offset>
+                            <AbsDimension x="35" y="20"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <FontString inherits="GameFontNormal" justifyH="LEFT" text="PREV">
+                            <Anchors>
+                                <Anchor point="LEFT" relativeTo="WardrobeFramePrevPageButton" relativePoint="RIGHT"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnClick function="WardrobeFramePrevPageButton_OnClick"/>
+                </Scripts>
+                <NormalTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Up"/>
+                <PushedTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Down"/>
+                <DisabledTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Disabled"/>
+                <HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+            </Button>
+
+            <Button name="WardrobeFrameNextPageButton">
+                <Size>
+                    <AbsDimension x="22" y="22"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="CENTER" relativeTo="WardrobeFrame" relativePoint="BOTTOMLEFT">
+                        <Offset>
+                            <AbsDimension x="245" y="20"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <FontString inherits="GameFontNormal" justifyH="RIGHT" text="NEXT">
+                            <Anchors>
+                                <Anchor point="RIGHT" relativeTo="WardrobeFrameNextPageButton" relativePoint="LEFT"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnClick function="WardrobeFrameNextPageButton_OnClick"/>
+                </Scripts>
+                <NormalTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Up"/>
+                <PushedTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Down"/>
+                <DisabledTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Disabled"/>
+                <HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+            </Button>
+
+            <Button name="WardrobeFrameCloseButton" inherits="UIPanelCloseButton">
+                <Anchors>
+                    <Anchor point="CENTER" relativePoint="TOPRIGHT">
+                        <Offset>
+                            <AbsDimension x="-12" y="-25"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+            </Button>
+
+            <Button name="WardrobeFrameAboutButton" inherits="UIPanelButtonTemplate">
+                <Size>
+                    <AbsDimension x="80" y="22"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="CENTER" relativePoint="TOPLEFT">
+                        <Offset>
+                            <AbsDimension x="305" y="-422"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        WardrobeFrameAboutButton_OnClick()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+        </Frames>
+        <Scripts>
+            <OnLoad function="WardrobeFrame_OnLoad" />
+            <OnShow>
+                SetPortraitTexture(WardrobeFramePortrait, "player");
+                PlaySound("igCharacterInfoOpen");
+            </OnShow>
+            <OnHide>
+                PlaySound("igCharacterInfoClose");
+            </OnHide>
+        </Scripts>
+    </Frame>
+
+</Ui>

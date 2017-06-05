@@ -1,0 +1,22 @@
+## Interface: 30300
+## Title: |cFFCA153BAgi|r's Wardrobe
+## Version: 1.0.0
+## Notes: Enhances your DressUp frame
+## Notes-deDE: Erweitert dein DressUp-Fenster
+## Author: Agita (Yvonne P.)
+## X-License: MIT License
+## X-Email: agita[at]live[dot]de
+## OptionalDeps: AgiCore
+## SavedVariablesPerCharacter: AgisWardrobeDB
+
+#@no-lib-strip@
+Libs\LibStub\LibStub.lua
+Libs\AceLocale-3.0\AceLocale-3.0.xml
+Libs\AceAddon-3.0\AceAddon-3.0.xml
+Libs\AgiTimers\AgiTimers.lua
+Libs\AgiDialogs\AgiDialogs.lua
+#@end-no-lib-strip@
+
+Localization.xml
+AgisWardrobe.xml
+Backgrounds.lua
