@@ -625,17 +625,17 @@
 
                 <FontString name="WardrobeFramePageStatus" inherits="GameFontNormal" justifyH="CENTER">
                     <Size>
-                        <AbsDimension x="300" y="86"/>
+                        <AbsDimension x="300" y="14"/>
                     </Size>
                     <Anchors>
                         <Anchor point="BOTTOMLEFT" relativeTo="WardrobeFrame" relativePoint="BOTTOMLEFT">
                             <Offset>
-                                <AbsDimension x="35" y="13"/>
+                                <AbsDimension x="35" y="85"/>
                             </Offset>
                         </Anchor>
                         <Anchor point="BOTTOMRIGHT" relativeTo="WardrobeFrame" relativePoint="BOTTOMLEFT">
                             <Offset>
-                                <AbsDimension x="245" y="13"/>
+                                <AbsDimension x="245" y="85"/>
                             </Offset>
                         </Anchor>
                     </Anchors>
@@ -1182,6 +1182,7 @@
         </Frames>
         <Scripts>
             <OnLoad function="WardrobeFrame_OnLoad" />
+            <OnEvent function="WardrobeFrame_OnEvent" />
             <OnShow>
                 SetPortraitTexture(WardrobeFramePortrait, "player");
                 PlaySound("igCharacterInfoOpen");

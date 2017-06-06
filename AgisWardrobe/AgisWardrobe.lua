@@ -610,8 +610,8 @@ InitializeOutfitsOptionsDropDown = function() end
                 notCheckable = true,
             }
 
-    local CreateUndressedButton = {
-                text = L["createUndressedOutfit"],
+    local CreateButton = {
+                text = L["createOutfit"],
                 func = function(self, arg1, arg2, checked)
                     self.checked = false
                     AgiDialogs:Show("WARDROBE_DIALOG", {
@@ -628,24 +628,7 @@ InitializeOutfitsOptionsDropDown = function() end
                     })
                 end,
             }
-    local CreateDressedButton = {
-                text = L["createDressedOutfit"],
-                func = function(self, arg1, arg2, checked)
-                    self.checked = false
-                    AgiDialogs:Show("WARDROBE_DIALOG", {
-                        text = L["enterNameOfOutfit"],
-                        hasEditBox = true,
-                        button1 = L["OK"],
-                        button2 = L["cancel"],
-                        OnAccept = function(self)
-                            createOutfit(self.editBox:GetText(), 1)
-                            refreshOutfitsMenu()
-                        end,
-                        OnCancel = function(self)
-                        end,
-                    })
-                end,
-            }
+
     local DeleteButton = {
                 text = L["deleteOutfit"],
                 func = function(self, arg1, arg2, checked)
@@ -691,8 +674,7 @@ InitializeOutfitsOptionsDropDown = function() end
             DeleteButton.disabled = not selectedOutfit
             RenameButton.disabled = not selectedOutfit
             UIDropDownMenu_AddButton(TitleButton)
-            UIDropDownMenu_AddButton(CreateDressedButton)
-            UIDropDownMenu_AddButton(CreateUndressedButton)
+            UIDropDownMenu_AddButton(CreateButton)
             UIDropDownMenu_AddButton(DeleteButton)
             UIDropDownMenu_AddButton(RenameButton)
         end)
@@ -891,7 +873,7 @@ end
 -- FUNCTIONS: OUTFITS
 ------------------------------------------------------------------------
 
-createOutfit = function(newName, copyCurrent)
+createOutfit = function(newName)
     if ( not newName ) then
         newName = L["newOutfit"]
     end
@@ -910,12 +892,6 @@ createOutfit = function(newName, copyCurrent)
     DBOUTFITS[newName] = {}
     for slotName,v in pairs(SLOTNAMES) do
         DBOUTFITS[newName][slotName] = {}
-    end
-
-    if ( copyCurrent ) then
-        for slotName,v in pairs(dressSlotItems) do
-            DBOUTFITS[newName][slotName][1] = v.shownItemID
-        end
     end
 
     selectedOutfit = newName
@@ -996,9 +972,12 @@ ResetDressUpModel2Default = function()
     IsTryingOnOnShow = nil
 
     DressUpModelDress(DressUpModel)
-    -- update: dont show dress slots on normal dress
-    --SetDressSlotsToInventory()
     HideDressSlots()
+
+    -- we came from OnShow... 
+    if ( tryOnItemID ) then
+        DressUpModel:TryOn(tryOnItemID)
+    end
 
 end
 
@@ -1782,12 +1761,23 @@ function WardrobeFrameSubmitButton_OnClick(self)
 end
 
 function WardrobeFrame_OnLoad(self)
+	self:RegisterEvent("PLAYER_TARGET_CHANGED")
     WardrobeFramePrevPageButton:Disable()
     WardrobeFrameNextPageButton:Disable()
     for i=1,ROWS_ON_MAXIMIZED do
         searchingRowsFrames[i] = getglobal("WardrobeItemsFrameItem"..i)
         searchingRowsFrames[i].ID = i
         searchingRowsFrames[i].icon.ID = i
+    end
+end
+
+function WardrobeFrame_OnEvent(self, event, ...)
+    local arg1, arg2 = ...
+    if ( event == "PLAYER_TARGET_CHANGED" ) then
+        if ( IsShiftKeyDown() and DressUpFrame:IsShown() and UnitIsPlayer("target") ) then
+            DressUpModel:SetUnit("target")
+        end
+        return
     end
 end
 
@@ -1938,7 +1928,11 @@ end)
 CharacterMicroButton:HookScript("OnClick", function()
     if ( IsShiftKeyDown() ) then
         HideUIPanel(CharacterFrame)
-        ShowUIPanel(DressUpFrame)
+        if ( DressUpFrame:IsShown() ) then
+            HideUIPanel(DressUpFrame)
+        else
+            ShowUIPanel(DressUpFrame)
+        end
     end
 end)
 
