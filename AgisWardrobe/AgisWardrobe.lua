@@ -245,7 +245,7 @@ local refreshWardrobeInputs
 local refreshWardrobeItemTypeMenu
 
 ------------------------------------------------------------------------
--- variables
+-- VARIABLES
 ------------------------------------------------------------------------
 
 local DBOUTFITS
@@ -991,21 +991,23 @@ end
 local DressUpModelDress = DressUpModel.Dress
 ResetDressUpModel2Default = function()
 
-    DressUpModelDress(DressUpModel)
+    -- we came from OnShow... 
+    local tryOnItemID = IsTryingOnOnShow
+    IsTryingOnOnShow = nil
 
+    DressUpModelDress(DressUpModel)
     -- update: dont show dress slots on normal dress
     --SetDressSlotsToInventory()
     HideDressSlots()
 
-    -- we came from OnShow... 
-    if ( IsTryingOnOnShow ) then
-        DressUpModel:TryOn(IsTryingOnOnShow)
-        IsTryingOnOnShow = nil
-    end
-
 end
 
 ResetDressUpModel2Outfit = function()
+
+    -- we came from OnShow... 
+    local tryOnItemID = IsTryingOnOnShow
+    IsTryingOnOnShow = nil
+
     DressUpModel:Undress()
 
     -- update: show dress slots on on outfits
@@ -1040,9 +1042,8 @@ ResetDressUpModel2Outfit = function()
     end
 
     -- we came from OnShow... 
-    if ( IsTryingOnOnShow ) then
-        DressUpModel:TryOn(IsTryingOnOnShow)
-        IsTryingOnOnShow = nil
+    if ( tryOnItemID ) then
+        DressUpModel:TryOn(tryOnItemID)
     end
 
 end
@@ -1909,7 +1910,6 @@ hooksecurefunc(DressUpModel, "Undress", function(self)
 end)
 
 hooksecurefunc(DressUpModel, "TryOn", function(self, item)
-
     -- first find item id
     local itemName, itemLink = GetItemInfo(item)
     local itemID   = ItemInfoByLink(itemLink)

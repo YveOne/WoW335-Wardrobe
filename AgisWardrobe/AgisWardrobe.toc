@@ -1,6 +1,6 @@
 ## Interface: 30300
 ## Title: |cFFCA153BAgi|r's Wardrobe
-## Version: 1.0.0
+## Version: 1.1.0
 ## Notes: Enhances your DressUp frame
 ## Notes-deDE: Erweitert dein DressUp-Fenster
 ## Author: Agita (Yvonne P.)
