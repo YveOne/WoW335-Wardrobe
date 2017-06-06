@@ -1139,11 +1139,15 @@ ShowDressSlots = function()
     end
 end
 
-TryOnDressItem = function(itemID)
+TryOnDressItem = function(item)
+    local itemName, itemLink, _, _, _, itemType, itemSubType, _, equipLoc = GetItemInfo(item)
+    if ( not itemName ) then
+        return nil
+    end
+    local itemID = ItemInfoByLink(itemLink)
 
-    local itemName, itemLink, _, _, _, itemType, itemSubType, _, equipLoc = GetItemInfo(itemID)
     if ( not ITEMLOC2SLOTNAME[equipLoc] ) then
-        return
+        return nil
     end
     local slotName = ITEMLOC2SLOTNAME[equipLoc]
     local clears   = ITEMLOC_REMOVES[equipLoc]
@@ -1187,6 +1191,7 @@ TryOnDressItem = function(itemID)
         end
     end
 
+    return itemID
 end
 
 ------------------------------------------------------------------------
@@ -1873,9 +1878,9 @@ end
 
 function DressUpFrameWardrobeButton_OnClick(self)
     if ( WardrobeFrame:IsShown() ) then
-        WardrobeFrame:Hide()
+        HideUIPanel(WardrobeFrame)
     else
-        WardrobeFrame:Show()
+        ShowUIPanel(WardrobeFrame)
     end
 end
 
@@ -1910,20 +1915,18 @@ hooksecurefunc(DressUpModel, "Undress", function(self)
 end)
 
 hooksecurefunc(DressUpModel, "TryOn", function(self, item)
-    -- first find item id
-    local itemName, itemLink = GetItemInfo(item)
-    local itemID   = ItemInfoByLink(itemLink)
+
+    local itemID = TryOnDressItem(item)
 
     -- we came from OnShow
     if ( IsTryingOnOnShow ) then
         IsTryingOnOnShow = itemID
     end
-
-    TryOnDressItem(itemID)
 end)
 
 DressUpFrame:HookScript("OnShow", function(self)
     IsTryingOnOnShow = 1
+    DressUpModel:SetUnit("player")
     ResetDressUpModel()
 end)
 
@@ -1932,11 +1935,22 @@ DressUpFrame:HookScript("OnHide", function()
     DressUpModel:ResetPosition()
 end)
 
+CharacterMicroButton:HookScript("OnClick", function()
+    if ( IsShiftKeyDown() ) then
+        HideUIPanel(CharacterFrame)
+        ShowUIPanel(DressUpFrame)
+    end
+end)
+
 ------------------------------------------------------------------------
 
 ------------------------------------------------------------------------
 -- API / INIT
 ------------------------------------------------------------------------
+
+UIPanelWindows["DressUpFrame"] = { area = "left", pushable = 0}
+--UIPanelWindows["WardrobeFrame"] = { area = "center", pushable = 0}
+UIChildWindows[#UIChildWindows] = "WardrobeFrame"
 
 function Wardrobe:AddCustomBackground(name, loca)
     if ( DressUpDefaultTexturePaths[name] ) then

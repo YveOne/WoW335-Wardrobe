@@ -4,3 +4,4 @@
 
 1.1.0
 - fixed a little bug where the model didnt try on a new item when opening the frame
+- fixed opening/hiding frame style, behaves now like original ui panels

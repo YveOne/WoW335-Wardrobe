@@ -543,17 +543,13 @@
 		</Scripts>
 	</Frame>
 
-    <Frame name="WardrobeFrame" toplevel="true" enableMouse="true" parent="DressUpFrame" hidden="true">
+    <Frame name="WardrobeFrame" toplevel="true" enableMouse="true" parent="UIParent" hidden="true">
         <Size>
-            <AbsDimension x="350" y="440"/>
+            <AbsDimension x="384" y="512"/>
         </Size>
-        <Anchors>
-            <Anchor point="TOPLEFT">
-                <Offset>
-                    <AbsDimension x="340" y="0"/>
-                </Offset>
-            </Anchor>
-        </Anchors>
+		<Anchors>
+			<Anchor point="TOPLEFT" relativeTo="DressUpFrame" relativePoint="TOPRIGHT"/>
+		</Anchors>
         <Layers>
             <Layer level="BACKGROUND">
                 <Texture name="WardrobeFramePortrait">
@@ -629,7 +625,7 @@
 
                 <FontString name="WardrobeFramePageStatus" inherits="GameFontNormal" justifyH="CENTER">
                     <Size>
-                        <AbsDimension x="300" y="14"/>
+                        <AbsDimension x="300" y="86"/>
                     </Size>
                     <Anchors>
                         <Anchor point="BOTTOMLEFT" relativeTo="WardrobeFrame" relativePoint="BOTTOMLEFT">
@@ -1104,7 +1100,7 @@
                 <Anchors>
                     <Anchor point="CENTER" relativeTo="WardrobeFrame" relativePoint="BOTTOMLEFT">
                         <Offset>
-                            <AbsDimension x="35" y="20"/>
+                            <AbsDimension x="35" y="92"/>
                         </Offset>
                     </Anchor>
                 </Anchors>
@@ -1133,7 +1129,7 @@
                 <Anchors>
                     <Anchor point="CENTER" relativeTo="WardrobeFrame" relativePoint="BOTTOMLEFT">
                         <Offset>
-                            <AbsDimension x="245" y="20"/>
+                            <AbsDimension x="245" y="92"/>
                         </Offset>
                     </Anchor>
                 </Anchors>
@@ -1159,7 +1155,7 @@
                 <Anchors>
                     <Anchor point="CENTER" relativePoint="TOPRIGHT">
                         <Offset>
-                            <AbsDimension x="-12" y="-25"/>
+                            <AbsDimension x="-46" y="-25"/>
                         </Offset>
                     </Anchor>
                 </Anchors>
@@ -1189,6 +1185,8 @@
             <OnShow>
                 SetPortraitTexture(WardrobeFramePortrait, "player");
                 PlaySound("igCharacterInfoOpen");
+                HideUIPanel(GetUIPanel("center"));
+                HideUIPanel(GetUIPanel("right"));
             </OnShow>
             <OnHide>
                 PlaySound("igCharacterInfoClose");
