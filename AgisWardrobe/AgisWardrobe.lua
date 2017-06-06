@@ -1929,6 +1929,7 @@ end)
 
 DressUpFrame:HookScript("OnHide", function()
     WardrobeFrame:Hide()
+    DressUpModel:ResetPosition()
 end)
 
 ------------------------------------------------------------------------
