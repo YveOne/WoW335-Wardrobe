@@ -4,7 +4,7 @@
 
 	<Texture name="DressUpFrameSlotDialogTexture" file="Interface\AddOns\AgisWardrobe\Textures\DressUpFrameSlotDialogTexture" virtual="true"/>
 
-    <Button name="DressUpFrameSlotButtonTemplate" parent="DressUpFrame" inherits="ItemButtonTemplate" virtual="true">
+    <Button name="DressUpFrameSlotButtonTemplate" parent="DressUpFrame" frameStrata="DIALOG" inherits="ItemButtonTemplate" virtual="true">
 		<Layers>
 			<Layer level="OVERLAY">
 				<Texture name="$parentHighlight" hidden="true" file="Interface\PaperDollInfoFrame\UI-GearManager-ItemButton-Highlight">
@@ -97,7 +97,7 @@
         </Frames>
     </Frame>
 
-	<Button name="DressUpFrameSlotDialogButtonTemplate" inherits="ItemButtonTemplate" virtual="true">
+	<Button name="DressUpFrameSlotDialogButtonTemplate" inherits="ItemButtonTemplate" frameStrata="DIALOG" virtual="true">
 		<Layers>
 			<Layer level="OVERLAY">
 				<Texture name="$parentHighlight" hidden="true" file="Interface\PaperDollInfoFrame\UI-GearManager-ItemButton-Highlight">

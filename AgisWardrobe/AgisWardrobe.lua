@@ -215,8 +215,9 @@ local searchingStart
 
 -- FUNCTIONS: DRESSSLOT DIALOG
 local UpdateSlotDialog
+local ShowSlotDialog
+local HideSlotDialog
 local ToggleSlotDialog
-local CloseSlotDialog
 
 -- FUNCTIONS: DRESSSLOTS
 local HideDressSlots
@@ -254,12 +255,14 @@ local selectedOutfit
 local dressSlots = {}
 local dressSlotItems = {}
 local currentSelectedSlotName
+local OutfitSetSlotItem
 
 local ResetDressUpModelInterval
 local IsTryingOnOnShow
 
 local itemOnCursorCameFromSlot
 local cursorOverSlotDialogButton
+local clearCursorOnDragStop = 1
 
 local searchMinItemID = MIN_ITEMID
 local searchMaxItemID = MAX_ITEMID
@@ -546,6 +549,7 @@ InitializeOutfitsDropDown = function() end
         selectOutfit(outfitName)
         dropDownButton.selectedValue = selectedOutfit or ""
         UIDropDownMenu_Refresh(dropDownButton)
+        --CloseDropDownMenus(1)
     end
 
     refreshOutfitsMenu = function()
@@ -561,7 +565,7 @@ InitializeOutfitsDropDown = function() end
                 text = L["default"],
                 value = "",
                 func = SelectButtonFunc,
-                keepShownOnClick = true,
+                keepShownOnClick = false,
                 checked = false,
             })
 
@@ -577,7 +581,7 @@ InitializeOutfitsDropDown = function() end
                     text = k,
                     value = k,
                     func = SelectButtonFunc,
-                    keepShownOnClick = true,
+                    keepShownOnClick = false,
                     checked = false,
                 })
                 count = count + 1
@@ -1173,23 +1177,50 @@ TryOnDressItem = function(item)
     return itemID
 end
 
+OutfitSetSlotItem = function(outfitName, slotID, itemID)
+
+    local outfit = DBOUTFITS[outfitName]
+    if ( not outfit ) then
+        return nil
+    end
+
+    local itemName, itemLink, _, _, _, _, _, _, equipLoc = GetItemInfo(itemID)
+    if ( not equipLoc ) then
+        return nil
+    end
+
+    local slotName = ITEMLOC2SLOTNAME[equipLoc]
+    if ( not slotName ) then
+        return nil
+    end
+
+    if ( not currentSelectedSlotName or currentSelectedSlotName ~= slotName ) then
+        ShowSlotDialog(slotName)
+    end
+
+    -- its the first slot so tryon automaticly
+    if ( slotID == 1 ) then
+        DressUpModel:TryOn(itemID)
+    end
+
+    local oldItemID = outfit[slotName][slotID]
+    outfit[slotName][slotID] = itemID
+
+    if ( oldItemID and oldItemID ~= itemID ) then
+        PickupItem(oldItemID)
+    else
+        ClearCursor()
+    end
+
+    UpdateSlotDialog()
+
+end
+
 ------------------------------------------------------------------------
 
 ------------------------------------------------------------------------
 -- FUNCTIONS: DRESSSLOT DIALOG
 ------------------------------------------------------------------------
-
-CloseSlotDialog = function()
-    if ( currentSelectedSlotName ) then
-        getglobal("DressUpFrame"..currentSelectedSlotName).highlight:Hide()
-        if ( slotName == currentSelectedSlotName ) then
-            slotName = nil
-        end
-        currentSelectedSlotName = nil
-    end
-    DressUpFrameSlotDialog:Hide()
-    DressUpFrameOutfitsButton:Show()
-end
 
 UpdateSlotDialog = function()
     if ( not selectedOutfit or not currentSelectedSlotName ) then
@@ -1216,22 +1247,34 @@ UpdateSlotDialog = function()
     end
 end
 
-ToggleSlotDialog = function(slotName)
+HideSlotDialog = function(slotName)
+    local canShow = 1
     if ( currentSelectedSlotName ) then
         getglobal("DressUpFrame"..currentSelectedSlotName).highlight:Hide()
-        if ( slotName == currentSelectedSlotName ) then
-            slotName = nil
-        end
-        currentSelectedSlotName = nil
         DressUpFrameSlotDialog:Hide()
         DressUpFrameOutfitsButton:Show()
+        if ( slotName == currentSelectedSlotName ) then
+            canShow = nil
+        end
+        currentSelectedSlotName = nil
     end
-    if ( slotName and selectedOutfit ) then
-        currentSelectedSlotName = slotName
-        getglobal("DressUpFrame"..currentSelectedSlotName).highlight:Show()
-        DressUpFrameSlotDialog:Show()
-        DressUpFrameOutfitsButton:Hide()
-        UpdateSlotDialog()
+    return canShow
+end
+
+ShowSlotDialog = function(slotName)
+    if ( currentSelectedSlotName ) then
+        HideSlotDialog()
+    end
+    currentSelectedSlotName = slotName
+    getglobal("DressUpFrame"..currentSelectedSlotName).highlight:Show()
+    DressUpFrameSlotDialog:Show()
+    DressUpFrameOutfitsButton:Hide()
+    UpdateSlotDialog()
+end
+
+ToggleSlotDialog = function(slotName)
+    if ( HideSlotDialog(slotName) ) then
+        ShowSlotDialog(slotName)
     end
 end
 
@@ -1419,7 +1462,6 @@ end
 function DressUpFrameSlotButton_OnLoad(self)
     self:RegisterForDrag("LeftButton")
     self:RegisterForClicks("LeftButtonUp", "RightButtonUp")
-	self:RegisterEvent("MODIFIER_STATE_CHANGED")
     local slotButtonName = self:GetName()
     local slotName = strsub(slotButtonName,13)
     local id, textureName, checkRelic = GetInventorySlotInfo(slotName)
@@ -1447,15 +1489,18 @@ function DressUpFrameSlotButton_OnEnter(self)
     else
         GameTooltip:SetText(SLOTNAMES[slotName])
     end
-    --GameTooltip:Show()
     self.isMouseOver = true
     CursorUpdate(self)
+    clearCursorOnDragStop = nil
+    self:RegisterEvent("MODIFIER_STATE_CHANGED")
 end
 
 function DressUpFrameSlotButton_OnLeave(self)
     self.isMouseOver = nil
     GameTooltip:Hide()
     ResetCursor()
+    clearCursorOnDragStop = 1
+    self:UnregisterEvent("MODIFIER_STATE_CHANGED")
 end
 
 function DressUpFrameSlotButton_OnClick(self, button)
@@ -1466,10 +1511,23 @@ function DressUpFrameSlotButton_OnClick(self, button)
             if ( dressSlotItems[slotName] ) then
                 DressUpModel:TryOn(dressSlotItems[slotName].shownItemID)
             end
+        elseif ( IsShiftKeyDown() ) then
+            if ( dressSlotItems[slotName] ) then
+                ChatEdit_InsertLink(select(2, GetItemInfo(dressSlotItems[slotName].shownItemID)))
+            end
         else
-            ToggleSlotDialog(slotName)
+            local cursorInfo, itemID = GetCursorInfo()
+            if ( cursorInfo == "item" ) then
+                local itemName, itemLink, _, _, _, _, _, _, equipLoc = GetItemInfo(itemID)
+                if ( slotName == ITEMLOC2SLOTNAME[equipLoc] ) then
+                    OutfitSetSlotItem(selectedOutfit, 1, itemID)
+                end
+            else
+                ToggleSlotDialog(slotName)
+            end
         end
     elseif ( button == "RightButton" ) then
+        -- nothing
     end
 end
 
@@ -1478,15 +1536,7 @@ function DressUpFrameSlotButton_OnShow(self)
 end
 
 function DressUpFrameSlotButton_OnHide(self)
--- nothing
-end
-
-function DressUpFrameSlotButton_OnEvent(self, event, ...)
-    local arg1, arg2 = ...;
-    if ( event == "MODIFIER_STATE_CHANGED" and self.isMouseOver ) then
-        CursorUpdate(self)
-        return
-    end
+    -- nothing
 end
 
 function DressUpFrameSlotButton_Update(self)
@@ -1513,15 +1563,21 @@ function DressUpFrameSlotButton_OnDragStart(self)
 end
 
 function DressUpFrameSlotButton_OnDragStop(self)
-    if ( cursorOverSlotDialogButton ) then
-        DressUpFrameSlotDialogButton_OnEnter(cursorOverSlotDialogButton)
-    else
+    if ( clearCursorOnDragStop ) then
         ClearCursor()
     end
 end
 
 function DressUpFrameSlotButton_OnReceiveDrag(self)
--- nothing
+    local slotButtonName = self:GetName()
+    local slotName = strsub(slotButtonName,13)
+    local cursorInfo, itemID = GetCursorInfo()
+    if ( cursorInfo == "item" ) then
+        local itemName, itemLink, _, _, _, _, _, _, equipLoc = GetItemInfo(itemID)
+        if ( slotName == ITEMLOC2SLOTNAME[equipLoc] ) then
+            OutfitSetSlotItem(selectedOutfit, 1, itemID)
+        end
+    end
 end
 
 function DressUpFrameSlotButton_UpdateLock(self)
@@ -1534,6 +1590,14 @@ function DressUpFrameSlotButton_UpdateLock(self)
     end
 end
 
+function DressUpFrameSlotButton_OnEvent(self, event, ...)
+    local arg1, arg2 = ...
+    if ( event == "MODIFIER_STATE_CHANGED" ) then
+        CursorUpdate(self)
+        return
+    end
+end
+
 ------------------------------------------------------------------------
 
 ------------------------------------------------------------------------
@@ -1543,7 +1607,6 @@ end
 function DressUpFrameSlotDialogButton_OnLoad(self)
     self:RegisterForDrag("LeftButton")
     self:RegisterForClicks("LeftButtonUp", "RightButtonUp")
-	self:RegisterEvent("MODIFIER_STATE_CHANGED")
     local slotButtonName = self:GetName()
     self.highlight = getglobal(slotButtonName.."Highlight")
 end
@@ -1559,21 +1622,10 @@ end
 function DressUpFrameSlotDialogButton_OnEvent(self, event, ...)
     local arg1, arg2 = ...
     if ( event == "MODIFIER_STATE_CHANGED" ) then
-        if ( cursorOverSlotDialogButton == self ) then
-            CursorUpdate(self)
-        end
+        CursorUpdate(self)
         return
     end
     if ( event == "CURSOR_UPDATE" ) then
-
-        if ( selectedOutfit) then
-            if ( itemOnCursorCameFromSlot ) then
-                DBOUTFITS[selectedOutfit][currentSelectedSlotName][itemOnCursorCameFromSlot.ID] = nil
-                itemOnCursorCameFromSlot = nil
-                UpdateSlotDialog()
-            end
-        end
-
         self:UnlockHighlight()
         local cursorInfo, itemID = GetCursorInfo()
         if ( cursorInfo == "item" ) then
@@ -1599,6 +1651,8 @@ function DressUpFrameSlotDialogButton_OnEnter(self)
     end
     self.isMouseOver = true
     CursorUpdate(self)
+    clearCursorOnDragStop = nil
+    self:RegisterEvent("MODIFIER_STATE_CHANGED")
 end
 
 function DressUpFrameSlotDialogButton_OnLeave(self)
@@ -1606,42 +1660,8 @@ function DressUpFrameSlotDialogButton_OnLeave(self)
     GameTooltip:Hide()
     self.isMouseOver = nil
     ResetCursor()
-end
-
-function DressUpFrameSlotDialogButton_OnItemDrop(self)
-
-    local savedOutfit = DBOUTFITS[selectedOutfit]
-    local cursorInfo, itemID = GetCursorInfo()
-    if ( cursorInfo == "item" ) then
-
-        local itemName, itemLink, _, _, _, _, _, _, equipLoc = GetItemInfo(itemID)
-        if ( ITEMLOC2SLOTNAME[equipLoc] ) then
-
-            local slotName = ITEMLOC2SLOTNAME[equipLoc]
-            if ( slotName == currentSelectedSlotName ) then
-
-                if ( itemOnCursorCameFromSlot ) then
-                    savedOutfit[currentSelectedSlotName][itemOnCursorCameFromSlot.ID] = nil
-                    itemOnCursorCameFromSlot = nil
-                end
-
-                -- its the first slot so tryon automaticly
-                if ( self.ID == 1 ) then
-                    DressUpModel:TryOn(itemID)
-                end
-
-                local _itemID = savedOutfit[slotName][self.ID]
-                savedOutfit[slotName][self.ID] = itemID
-                if ( _itemID and _itemID ~= itemID ) then
-                    PickupItem(_itemID)
-                else
-                    ClearCursor()
-                end
-                UpdateSlotDialog()
-                DressUpFrameSlotDialogButton_OnEnter(self) -- force tooltip
-            end
-        end
-    end
+    clearCursorOnDragStop = 1
+    self:UnregisterEvent("MODIFIER_STATE_CHANGED")
 end
 
 function DressUpFrameSlotDialogButton_OnClick(self, button)
@@ -1652,9 +1672,19 @@ function DressUpFrameSlotDialogButton_OnClick(self, button)
             if ( itemID ) then
                 DressUpModel:TryOn(itemID)
             end
+        elseif ( IsShiftKeyDown() ) then
+            if ( itemID ) then
+                ChatEdit_InsertLink(select(2, GetItemInfo(itemID)))
+            end
         else
-            if ( GetCursorInfo() == "item" ) then
-                DressUpFrameSlotDialogButton_OnItemDrop(self)
+            local cursorInfo, cursorItemID = GetCursorInfo()
+            if ( cursorInfo == "item" ) then
+                if ( itemOnCursorCameFromSlot ) then
+                    savedOutfit[currentSelectedSlotName][itemOnCursorCameFromSlot.ID] = nil
+                    itemOnCursorCameFromSlot = nil
+                end
+                OutfitSetSlotItem(selectedOutfit, self.ID, cursorItemID)
+                DressUpFrameSlotDialogButton_OnEnter(self) -- force tooltip
             else
                 if ( itemID ) then
                     PickupItem(itemID)
@@ -1677,15 +1707,17 @@ end
 function DressUpFrameSlotDialogButton_OnDragStop(self)
     local savedOutfit = DBOUTFITS[selectedOutfit]
     savedOutfit[currentSelectedSlotName][self.ID] = nil
-    if ( not cursorOverSlotDialogButton ) then
-        UpdateSlotDialog()
+    UpdateSlotDialog()
+    if ( clearCursorOnDragStop ) then
         ClearCursor()
     end
 end
 
 function DressUpFrameSlotDialogButton_OnReceiveDrag(self)
-    if ( GetCursorInfo() == "item" ) then
-        DressUpFrameSlotDialogButton_OnItemDrop(self)
+    local cursorInfo, cursorItemID = GetCursorInfo()
+    if ( cursorInfo == "item" ) then
+        OutfitSetSlotItem(selectedOutfit, self.ID, cursorItemID)
+        DressUpFrameSlotDialogButton_OnEnter(self) -- force tooltip
     end
 end
 
@@ -1758,6 +1790,12 @@ end
 
 function WardrobeFrameSubmitButton_OnClick(self)
     searchingStart()
+    WardrobeMenuFrameItemNameInput:ClearFocus()
+    WardrobeMenuFrameItemIDMinInput:ClearFocus()
+    WardrobeMenuFrameItemIDMaxInput:ClearFocus()
+    WardrobeMenuFrameItemLevelMinInput:ClearFocus()
+    WardrobeMenuFrameItemLevelMaxInput:ClearFocus()
+    WardrobeMenuFrameRequireLevelInput:ClearFocus()
 end
 
 function WardrobeFrame_OnLoad(self)
@@ -1790,7 +1828,6 @@ end
 function WardrobeItemsFrameItem_OnLoad(self)
     self:RegisterForDrag("LeftButton")
     self:RegisterForClicks("LeftButtonUp", "RightButtonUp")
-	self:RegisterEvent("MODIFIER_STATE_CHANGED")
 	self.hasItem = 1 -- if this slot has no item it will be hidden, so...
     self.texture = getglobal(self:GetName().."IconTexture")
 end
@@ -1798,35 +1835,39 @@ end
 function WardrobeItemsFrameItem_OnEvent(self, event, ...)
     local arg1, arg2 = ...
     if ( event == "MODIFIER_STATE_CHANGED" ) then
-        if ( self.isMouseOver ) then
-            CursorUpdate(self)
-        end
+        CursorUpdate(self)
         return
     end
 end
 
 function WardrobeItemsFrameItem_OnEnter(self)
     GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-    local itemID = searchingRowsItems[self.ID]
+    local rowID = self.ID + FauxScrollFrame_GetOffset(WardrobeItemsFrameScrollFrame)
+    local itemID = searchingRowsItems[rowID]
     local itemName, itemLink = GetItemInfo(itemID)
     if (itemLink) then
         GameTooltip:SetHyperlink(itemLink)
     end
     self.isMouseOver = true
     CursorUpdate(self)
+    self:RegisterEvent("MODIFIER_STATE_CHANGED")
 end
 
 function WardrobeItemsFrameItem_OnLeave(self)
     GameTooltip:Hide()
     self.isMouseOver = nil
     ResetCursor()
+    self:UnregisterEvent("MODIFIER_STATE_CHANGED")
 end
 
 function WardrobeItemsFrameItem_OnClick(self, button)
-    local itemID = searchingRowsItems[self.ID]
+    local rowID = self.ID + FauxScrollFrame_GetOffset(WardrobeItemsFrameScrollFrame)
+    local itemID = searchingRowsItems[rowID]
     if ( button == "LeftButton" ) then
         if ( IsControlKeyDown() ) then
             DressUpModel:TryOn(itemID)
+        elseif ( IsShiftKeyDown() ) then
+            ChatEdit_InsertLink(select(2, GetItemInfo(itemID)))
         else
             PickupItem(itemID)
         end
@@ -1835,7 +1876,8 @@ function WardrobeItemsFrameItem_OnClick(self, button)
 end
 
 function WardrobeItemsFrameItem_OnDragStart(self)
-    local itemID = searchingRowsItems[self.ID]
+    local rowID = self.ID + FauxScrollFrame_GetOffset(WardrobeItemsFrameScrollFrame)
+    local itemID = searchingRowsItems[rowID]
     PickupItem(itemID)
 end
 
@@ -1843,7 +1885,9 @@ function WardrobeItemsFrameItem_OnDragStop(self)
     if ( cursorOverSlotDialogButton ) then
         DressUpFrameSlotDialogButton_OnEnter(cursorOverSlotDialogButton)
     else
-        ClearCursor()
+        if ( clearCursorOnDragStop ) then
+            ClearCursor()
+        end
     end
 end
 
